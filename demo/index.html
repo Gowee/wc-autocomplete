@@ -20,12 +20,13 @@
   <script type="module">
     import { html, render } from 'lit-html';
     import '../wc-autocomplete.js';
-    const completer = (content) => [content, content+content, content+content];
+    import { completer } from './completer.js';
+    // const completer = (content) => [content, content+content, content+content];
 
     const title = 'Hello owc World!';
     render(
       html`
-        <h2>DuckDuckGo!</h2>
+        <h2>🦆 DuckDuckGo!</h2>
         <wc-autocomplete .title=${title} .completer=${completer} placeholder="Type here to search" name="search-input">
           some more light-dom
         </wc-autocomplete>
