@@ -1,38 +1,83 @@
 <!doctype html>
-<html lang="en-GB">
+<html lang="en-US">
+
 <head>
   <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <style>
     body {
       background: #fafafa;
     }
-    #demo {
+
+    .demo {
       margin: 3em;
     }
+
     wc-autocomplete::part(input) {
       width: 30em;
     }
+
+    .notes {
+      margin-top: 3em;
+      color: gray;
+    }
+
+    .search-bar {
+      display: flex;
+    }
+
+    .search-bar button {
+      padding-left: 1.0em;
+      padding-right: 1.0em;
+    }
   </style>
 </head>
-<body>
-  <div id="demo"></div>
 
+<body>
+  <div class="demo">
+    <h2>🦆 DuckDuckGo!</h2>
+    <div class="search-bar">
+      <div id="container"></div>
+      <button id="search-button">Search</button>
+    </div>
+    <div class="notes">
+      This demo relys on search suggestions service provided by DuckDuckGo/Google. So:
+      <ul>
+        <li>Make sure completer-server.js backend service (API proxy) is running.</li>
+        <li>Make sure the Internet connection is active so that DuckDuckGo/Google is reachable.</li>
+        <li>In case no suggestions in prompted, try simple phrases such as "test" and "hello".</li>
+      </ul>
+    </div>
+  </div>
   <script type="module">
     import { html, render } from 'lit-html';
     import '../wc-autocomplete.js';
-    import { completer } from './completer.js';
-    // const completer = (content) => [content, content+content, content+content];
-
-    const title = 'Hello owc World!';
+    async function completer(input, abortSinal) {
+      const r = await fetch(`http://localhost:8821/google?input=${input}`, { signal: abortSinal });
+      return await r.json();
+    }
+    const title = "Search Input";
     render(
       html`
-        <h2>🦆 DuckDuckGo!</h2>
-        <wc-autocomplete .title=${title} .completer=${completer} placeholder="Type here to search" name="search-input">
+        <wc-autocomplete id="search-input" .title=${title} .completer=${completer} placeholder="Type here to search" name="search-input" autofocus>
           some more light-dom
         </wc-autocomplete>
       `,
-      document.querySelector('#demo')
+      document.querySelector('#container')
     );
+
+    const searchInput = document.querySelector("#search-input");
+    const searchButton = document.querySelector("#search-button");
+    // searchInput.focus();
+    searchInput.addEventListener("keyup", (e) => {
+      if (e.keyCode === 13 && searchInput.value) {
+        searchButton.click();
+      }
+    });
+    searchButton.addEventListener("click", (e) => {
+      window.location = `https://duckduckgo.com/?q=${searchInput.value}`
+    });
   </script>
 </body>
+
 </html>

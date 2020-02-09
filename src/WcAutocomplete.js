@@ -31,7 +31,10 @@ export class WcAutocomplete extends LitElement {
   static get properties() {
     return {
       candidates: { type: Array[String] },
-      placeholder: { reflect: true }
+      placeholder: { type: String, reflect: true },
+      value: { type: String, reflect: true },
+      disabled: { type: Boolean, reflect: true },
+      autofocus: { type: Boolean, reflect: true }
     };
   }
 
@@ -40,29 +43,66 @@ export class WcAutocomplete extends LitElement {
     this.candidates = [];
     this.completer = (content) => [];
     this.pendingCompleterController = null;
+    this.value = "";
+    this.disabled = false;
+    this.focus = this.focus.bind(this);
+    this.blur = this.blur.bind(this);
   }
 
-  async handleChange(e) {
-    const content = e.target.value;
+  createRenderRoot() {
+    return this.attachShadow({ mode: 'open', delegatesFocus: true });
+  }
+
+  async handleInput(e) {
+    const input = e.target.value;
+    this.value = input;
     if (this.pendingCompleterController !== null) {
       this.pendingCompleterController.abort();
     }
     const controller = new AbortController();
     this.pendingCompleterController = controller;
     try {
-      this.candidates = await this.completer(content, controller.signal);
+      this.candidates = await this.completer(input, controller.signal);
     }
     catch (e) {
       if (!(e instanceof DOMException && e.name === "AbortError")) {
         throw e;
       }
     }
+    this.pendingCompleterController = null;
     e.target.focus();
+  }
+
+  firstUpdated(_changedProperties) {
+    // _changedProperties.forEach((oldValue, propName) => {
+    //   console.log(`${propName} changed. oldValue: ${oldValue}`);
+    // });
+    // TODO: How to make autofocus work automatically?
+    if (this.autofocus) {
+      this.focus();
+    }
+  }
+
+  focus() {
+    console.log(this.shadowRoot.querySelector);
+    this.shadowRoot.querySelector("input").focus();
+  }
+
+  blur() {
+    this.shadowRoot.querySelector("input").blur();
   }
 
   render() {
     return html`
-      <input part="input" list="candidates" type="text" @input=${this.handleChange} placeholder=${this.placeholder} autocomplete="off" />
+      <input
+        part="input"
+        list="candidates"
+        type="text"
+        @input=${this.handleInput}
+        placeholder=${this.placeholder}
+        value=${this.value}
+        ?disabled=${this.disabled}
+        autocomplete="off" />
       <datalist part="candidates" id="candidates">
         ${this.candidates.map((item) => html`<option value="${item}" />`)}
       </datalist>
