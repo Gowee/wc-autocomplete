@@ -7,7 +7,7 @@
   "main": "index.js",
   "module": "index.js",
   "scripts": {
-    "demo": "npm run demo-backend & es-dev-server --app-index demo/index.html --node-resolve --open --watch",
+    "start": "npm run demo-backend & es-dev-server --app-index demo/index.html --node-resolve --open --watch",
     "demo-backend": "node demo/completer-server.js",
     "lint:eslint": "eslint --ext .js,.html . --ignore-path .gitignore",
     "format:eslint": "eslint --ext .js,.html . --fix --ignore-path .gitignore",
