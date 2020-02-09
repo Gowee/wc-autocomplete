@@ -39,7 +39,6 @@ async function googleSuggest(input) {
     const url = `http://suggestqueries.google.com/complete/search?client=firefox&q=${encodeURIComponent(input)}`;
     const r = await fetch(url, fetchInit);
     const d = await r.text();
-    console.log(d);
     const candidates = JSON.parse(d)[1]/*.map((item) => item[0])*/;
     return candidates;
 }

@@ -38,24 +38,30 @@
     <h2>🦆 DuckDuckGo!</h2>
     <div class="search-bar">
       <div id="container"></div>
+
       <button id="search-button">Search</button>
     </div>
     <div class="notes">
+
       This demo relys on search suggestions service provided by DuckDuckGo/Google. So:
       <ul>
         <li>Make sure completer-server.js backend service (API proxy) is running.</li>
+
         <li>Make sure the Internet connection is active so that DuckDuckGo/Google is reachable.</li>
         <li>In case no suggestions in prompted, try simple phrases such as "test" and "hello".</li>
       </ul>
+
     </div>
   </div>
   <script type="module">
     import { html, render } from 'lit-html';
     import '../wc-autocomplete.js';
+
     async function completer(input, abortSinal) {
       const r = await fetch(`http://localhost:8821/google?input=${input}`, { signal: abortSinal });
       return await r.json();
     }
+
     const title = "Search Input";
     render(
       html`
