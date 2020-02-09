@@ -1,0 +1,55 @@
+import { Story, Preview, Meta, Props, html } from '@open-wc/demoing-storybook';
+
+import '../wc-autocomplete.js';
+
+<Meta 
+  title="WcAutocomplete"
+  parameters={{
+    component: "wc-autocomplete",
+    options: { selectedPanel: "storybookjs/knobs/panel" }
+  }}
+/>
+
+# WcAutocomplete
+
+A component for...
+
+## Features:
+
+- a
+- b
+- ...
+
+## How to use
+
+### Installation
+
+```bash
+yarn add wc-autocomplete
+```
+
+```js
+import 'wc-autocomplete/wc-autocomplete.js';
+```
+
+<Preview withToolbar>
+  <Story name="Simple">
+    {html`
+      <wc-autocomplete></wc-autocomplete>
+    `}
+  </Story>
+</Preview>
+
+## API
+
+<Props of="wc-autocomplete" />
+
+## Variations
+
+###### Custom Title
+
+<Story name="Custom Title">
+  {html`
+    <wc-autocomplete .title=${'Hello World'}></wc-autocomplete>
+  `}
+</Story>
