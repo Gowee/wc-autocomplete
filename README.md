@@ -1,5 +1,6 @@
 ![CI](https://github.com/Gowee/wc-autocomplete/workflows/CI/badge.svg)
 ![NPM](https://img.shields.io/npm/v/wc-autocomplete)
+[![codecov](https://codecov.io/gh/Gowee/wc-autocomplete/branch/master/graph/badge.svg)](https://codecov.io/gh/Gowee/wc-autocomplete)
 # \<wc-autocomplete>
 
 This webcomponent follows the [open-wc](https://github.com/open-wc/open-wc) recommendation.
