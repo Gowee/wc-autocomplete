@@ -1,6 +1,6 @@
 {
   "name": "wc-autocomplete",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Webcomponent wc-autocomplete following open-wc recommendations",
   "author": "wc-autocomplete",
   "license": "MIT",
