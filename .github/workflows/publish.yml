@@ -1,8 +1,8 @@
-name: Node.js Package
+name: Publish Package
 
-on:
-  release:
-    types: [created]
+on: [push]
+  # release:
+  #   types: [created]
 
 jobs:
   build:
