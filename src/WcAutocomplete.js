@@ -71,13 +71,12 @@ export class WcAutocomplete extends LitElement {
     // Use the new AbortController to fetch autocomplete candidates
     try {
       this.candidates = await this.completer(input, controller.signal);
+      this.pendingCompleterController = null;
     } catch (err) {
       /* istanbul ignore next */
       if (!(err instanceof DOMException && err.name === 'AbortError')) {
         throw err;
       }
-    } finally {
-      this.pendingCompleterController = null;
     }
     // e.target.focus();
   }
