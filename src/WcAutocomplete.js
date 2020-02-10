@@ -31,6 +31,7 @@ export class WcAutocomplete extends LitElement {
   static get properties() {
     return {
       candidates: { type: Array[String] },
+      title: { type: String, reflect: true },
       placeholder: { type: String, reflect: true },
       value: { type: String, reflect: true },
       disabled: { type: Boolean, reflect: true },
@@ -44,23 +45,30 @@ export class WcAutocomplete extends LitElement {
     this.completer = (content) => [];
     this.pendingCompleterController = null;
     this.value = "";
+    this.title = "";
+    this.placeholder = "";
     this.disabled = false;
     this.focus = this.focus.bind(this);
     this.blur = this.blur.bind(this);
   }
 
   createRenderRoot() {
+    // Delegate focus so that the composed elements behaves as a whole
     return this.attachShadow({ mode: 'open', delegatesFocus: true });
   }
 
   async handleInput(e) {
     const input = e.target.value;
     this.value = input;
+
+    // Signal the previous AbortController and replace it with a new one
     if (this.pendingCompleterController !== null) {
       this.pendingCompleterController.abort();
     }
     const controller = new AbortController();
     this.pendingCompleterController = controller;
+
+    // Use the new AbortController to fetch autocomplete candidates
     try {
       this.candidates = await this.completer(input, controller.signal);
     }
@@ -69,8 +77,16 @@ export class WcAutocomplete extends LitElement {
         throw e;
       }
     }
-    this.pendingCompleterController = null;
-    e.target.focus();
+    finally {
+      this.pendingCompleterController = null;
+    }
+    // e.target.focus();
+  }
+
+  handleChange(_e) {
+    // change event won't bubble out the Shadow DOM boundary; Ref:
+    // https://developers.google.com/web/fundamentals/web-components/shadowdom#events
+    this.dispatchEvent(new Event("change"));
   }
 
   firstUpdated(_changedProperties) {
@@ -83,12 +99,13 @@ export class WcAutocomplete extends LitElement {
     }
   }
 
-  focus() {
-    console.log(this.shadowRoot.querySelector);
+  focus(options) {
+    // super.focus(options);
     this.shadowRoot.querySelector("input").focus();
   }
 
-  blur() {
+  blur(options) {
+    // super.blur(options);
     this.shadowRoot.querySelector("input").blur();
   }
 
@@ -99,6 +116,8 @@ export class WcAutocomplete extends LitElement {
         list="candidates"
         type="text"
         @input=${this.handleInput}
+        @change=${this.handleChange}
+        title=${this.title}
         placeholder=${this.placeholder}
         value=${this.value}
         ?disabled=${this.disabled}
