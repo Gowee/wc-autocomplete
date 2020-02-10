@@ -1,4 +1,4 @@
-import { html, fixture, expect } from '@open-wc/testing';
+import { html, fixture, expect, oneEvent } from '@open-wc/testing';
 
 import '../wc-autocomplete.js';
 
@@ -79,10 +79,22 @@ describe('WcAutocomplete', () => {
     `);
     const input = el.shadowRoot.querySelector("input");
     const datalist = el.shadowRoot.querySelector("datalist");
+
     input.value = "test";
     await el.handleInput.bind(el)({ target: input });
     expect(el.value).to.equal("test");
     expect(datalist).to.equalSnapshot();
+
+    // to increase branch coverage
+    el.pendingCompleterController = new AbortController();
+    
+    input.value = "oOo";
+    await el.handleInput.bind(el)({ target: input });
+    expect(el.value).to.equal("oOo");
+    const completions = completer("oOo");
+    expect(datalist.querySelector(":nth-child(1)").value).to.equal(completions[0]);
+    expect(datalist.querySelector(":nth-child(2)").value).to.equal(completions[1]);
+    expect(datalist.querySelector(":nth-child(3)").value).to.equal(completions[2]);
   });
 
   it('can focus and blur', async () => {
@@ -114,6 +126,20 @@ describe('WcAutocomplete', () => {
     expect(document.activeElement).to.equal(el);
     expect(document.hasFocus()).true;
   });
+
+  it('throws change event normally', async () => {
+    const el = await fixture(html`
+      <wc-autocomplete></wc-autocomplete>
+    `);
+    const listener = oneEvent(el, "change");
+    const input = el.shadowRoot.querySelector("input");
+    input.value = "value!";
+    input.dispatchEvent(new Event("input"));
+    input.dispatchEvent(new Event("change"));
+    const { target } = await listener;
+    expect(target.value).to.equal("value!");
+  });
+
   // it('shows initially the text "hey there Nr. 5!" and an "increment" button', async () => {
   //   const el = await fixture(html`
   //     <wc-autocomplete></wc-autocomplete>

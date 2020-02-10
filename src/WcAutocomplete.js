@@ -73,6 +73,7 @@ export class WcAutocomplete extends LitElement {
       this.candidates = await this.completer(input, controller.signal);
     }
     catch (e) {
+      /* istanbul ignore next */
       if (!(e instanceof DOMException && e.name === "AbortError")) {
         throw e;
       }

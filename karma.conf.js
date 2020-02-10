@@ -17,7 +17,14 @@ module.exports = config => {
       esm: {
         nodeResolve: true,
       },
-      // you can overwrite/extend the config further
+
+      // coverageIstanbulReporter: {
+      //   thresholds: {
+      //     global: {
+      //       branches: 10,
+      //     },
+      //   },
+      // },
     }),
   );
   return config;
