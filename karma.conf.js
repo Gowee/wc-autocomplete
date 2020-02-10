@@ -17,21 +17,6 @@ module.exports = config => {
       esm: {
         nodeResolve: true,
       },
-
-      reporters: {
-        reporters: ['coverage'],
-      },
-
-      coverageReporter: {
-        reporters: { type: 'lcov' },
-      },
-      // coverageIstanbulReporter: {
-      //   thresholds: {
-      //     global: {
-      //       branches: 10,
-      //     },
-      //   },
-      // },
     }),
   );
   return config;
