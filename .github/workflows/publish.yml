@@ -1,8 +1,8 @@
 name: Publish Package
 
-on: [push]
-  # release:
-  #   types: [created]
+on:
+  release:
+  types: [created]
 
 jobs:
   build:
@@ -29,17 +29,20 @@ jobs:
         env:
           NODE_AUTH_TOKEN: ${{secrets.npm_token}}
 
-  publish-gpr:
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v1
-        with:
-          node-version: 13
-          registry-url: https://npm.pkg.github.com/
-          scope: '@Gowee'
-      - run: npm ci
-      - run: npm publish
-        env:
-          NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
+  # publish-gpr:
+  #   needs: build
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v2
+  #     - uses: actions/setup-node@v1
+  #       with:
+  #         node-version: 13
+  #         registry-url: https://npm.pkg.github.com/
+  #         scope: '@Gowee'
+  #     - run: npm ci
+  #     - run: npm publish
+  #       env:
+  #         NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
+  #
+  # name in package.json needs be scoped to pushlish to GitHub package registry
+  # Ref: https://github.com/actions/setup-node/issues/53
