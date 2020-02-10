@@ -4,12 +4,13 @@ on: [push]
 
 jobs:
   build:
+    name: Test & Lint
 
     runs-on: ubuntu-latest
 
     strategy:
       matrix:
-        node-version: [8.x, 10.x, 12.x]
+        node-version: [8.x, 10.x, 13.x]
 
     steps:
     - uses: actions/checkout@v2
@@ -24,5 +25,5 @@ jobs:
       env:
         CI: true
     - name: Lint
-      run: npm lint
+      run: npm run lint
     
