@@ -26,4 +26,7 @@ jobs:
         CI: true
     - name: Lint
       run: npm run lint
-    
+    - name: CodeCov
+      run: npm run codecov
+      env:
+        CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
