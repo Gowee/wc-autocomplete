@@ -13,10 +13,10 @@ export class WcAutocomplete extends LitElement {
       input {
         line-height: 1.5;
         font-size: 1rem;
-        padding-bottom: calc(.5em - 1px);
-        padding-left: calc(.75em - 1px);
-        padding-right: calc(.75em - 1px);
-        padding-top: calc(.5em - 1px);
+        padding-bottom: calc(0.5em - 1px);
+        padding-left: calc(0.75em - 1px);
+        padding-right: calc(0.75em - 1px);
+        padding-top: calc(0.5em - 1px);
         transition: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1), height 0s;
         border: 1px solid #d9d9d9;
         border-radius: 4px;
@@ -35,18 +35,18 @@ export class WcAutocomplete extends LitElement {
       placeholder: { type: String, reflect: true },
       value: { type: String, reflect: true },
       disabled: { type: Boolean, reflect: true },
-      autofocus: { type: Boolean, reflect: true }
+      autofocus: { type: Boolean, reflect: true },
     };
   }
 
   constructor() {
     super();
     this.candidates = [];
-    this.completer = (content) => [];
+    this.completer = _input => [];
     this.pendingCompleterController = null;
-    this.value = "";
-    this.title = "";
-    this.placeholder = "";
+    this.value = '';
+    this.title = '';
+    this.placeholder = '';
     this.disabled = false;
     this.focus = this.focus.bind(this);
     this.blur = this.blur.bind(this);
@@ -71,14 +71,12 @@ export class WcAutocomplete extends LitElement {
     // Use the new AbortController to fetch autocomplete candidates
     try {
       this.candidates = await this.completer(input, controller.signal);
-    }
-    catch (e) {
+    } catch (err) {
       /* istanbul ignore next */
-      if (!(e instanceof DOMException && e.name === "AbortError")) {
-        throw e;
+      if (!(err instanceof DOMException && err.name === 'AbortError')) {
+        throw err;
       }
-    }
-    finally {
+    } finally {
       this.pendingCompleterController = null;
     }
     // e.target.focus();
@@ -87,7 +85,7 @@ export class WcAutocomplete extends LitElement {
   handleChange(_e) {
     // change event won't bubble out the Shadow DOM boundary; Ref:
     // https://developers.google.com/web/fundamentals/web-components/shadowdom#events
-    this.dispatchEvent(new Event("change"));
+    this.dispatchEvent(new Event('change'));
   }
 
   firstUpdated(_changedProperties) {
@@ -101,13 +99,13 @@ export class WcAutocomplete extends LitElement {
   }
 
   focus(options) {
-    // super.focus(options);
-    this.shadowRoot.querySelector("input").focus();
+    super.focus(options);
+    this.shadowRoot.querySelector('input').focus();
   }
 
   blur(options) {
-    // super.blur(options);
-    this.shadowRoot.querySelector("input").blur();
+    super.blur(options);
+    this.shadowRoot.querySelector('input').blur();
   }
 
   render() {
@@ -120,11 +118,17 @@ export class WcAutocomplete extends LitElement {
         @change=${this.handleChange}
         title=${this.title}
         placeholder=${this.placeholder}
-        value=${this.value}
+        .value=${this.value}
         ?disabled=${this.disabled}
-        autocomplete="off" />
+        autocomplete="off"
+      />
       <datalist part="candidates" id="candidates">
-        ${this.candidates.map((item) => html`<option value="${item}" />`)}
+        ${this.candidates.map(
+          item =>
+            html`
+              <option value="${item}"> </option>
+            `,
+        )}
       </datalist>
     `;
   }

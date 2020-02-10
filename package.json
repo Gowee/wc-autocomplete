@@ -45,7 +45,13 @@
     "extends": [
       "@open-wc/eslint-config",
       "eslint-config-prettier"
-    ]
+    ],
+    "rules": {
+      "no-unused-vars": [2, {"args": "after-used", "argsIgnorePattern": "^_"}],
+      "no-return-await": "off",
+      "no-else-return": "off"
+
+    }
   },
   "prettier": "@open-wc/prettier-config",
   "husky": {
