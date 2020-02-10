@@ -18,6 +18,13 @@ module.exports = config => {
         nodeResolve: true,
       },
 
+      reporters: {
+        reporters: ['coverage'],
+      },
+
+      coverageReporter: {
+        reporters: { type: 'lcov' },
+      },
       // coverageIstanbulReporter: {
       //   thresholds: {
       //     global: {

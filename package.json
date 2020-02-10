@@ -21,7 +21,8 @@
     "test:prune-snapshots": "karma start --prune-snapshots",
     "test:bs": "karma start karma.bs.config.js --coverage",
     "storybook": "start-storybook --node-resolve --watch --open",
-    "storybook:build": "build-storybook"
+    "storybook:build": "build-storybook",
+    "codecov": "codecov"
   },
   "dependencies": {
     "lit-html": "^1.1.2",
@@ -34,6 +35,7 @@
     "@open-wc/testing": "^2.0.0",
     "@open-wc/testing-karma": "^3.0.0",
     "@open-wc/testing-karma-bs": "^1.0.0",
+    "codecov": "^3.6.5",
     "deepmerge": "^3.2.0",
     "es-dev-server": "^1.23.0",
     "eslint": "^6.1.0",
@@ -47,10 +49,15 @@
       "eslint-config-prettier"
     ],
     "rules": {
-      "no-unused-vars": [2, {"args": "after-used", "argsIgnorePattern": "^_"}],
+      "no-unused-vars": [
+        2,
+        {
+          "args": "after-used",
+          "argsIgnorePattern": "^_"
+        }
+      ],
       "no-return-await": "off",
       "no-else-return": "off"
-
     }
   },
   "prettier": "@open-wc/prettier-config",

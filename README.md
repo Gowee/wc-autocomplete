@@ -1,3 +1,5 @@
+![CI](https://github.com/Gowee/wc-autocomplete/workflows/CI/badge.svg)
+![NPM](https://img.shields.io/npm/v/wc-autocomplete)
 # \<wc-autocomplete>
 
 This webcomponent follows the [open-wc](https://github.com/open-wc/open-wc) recommendation.
@@ -62,12 +64,12 @@ or
 ```bash
 npm run test:compatibility
 ```
-
+<!-- 
 ## Testing with Karma via BrowserStack
 To run the suite of karma tests in BrowserStack, run
 ```bash
 npm run test:bs
-```
+``` -->
 
 ## Managing Test Snapshots
 You can manage the test snapshots using
@@ -78,7 +80,7 @@ or
 ```bash
 npm run test:prune-snapshots
 ```
-
+<!-- 
 ## Demoing with Storybook
 To run a local instance of Storybook for your component, run
 ```bash
@@ -88,7 +90,7 @@ npm run storybook
 To build a production version of Storybook, run
 ```bash
 npm run storybook:build
-```
+``` -->
 
 
 ## Local Demo with `es-dev-server`

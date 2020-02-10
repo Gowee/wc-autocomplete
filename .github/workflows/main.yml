@@ -26,4 +26,5 @@ jobs:
         CI: true
     - name: Lint
       run: npm run lint
-    
+    - name: CodeCov
+      run: codecov
