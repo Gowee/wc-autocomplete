@@ -27,4 +27,4 @@ jobs:
     - name: Lint
       run: npm run lint
     - name: CodeCov
-      run: codecov
+      run: npm run codecov
